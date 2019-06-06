@@ -2,37 +2,15 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 
-const Statistics = ({good, neutral, bad}) => {
+const Statistic = ({ text, value }) => (
+    <div>
+        <span>{text} {value}</span><br />
+    </div>
+)
 
-    const calculateAverage = () => {
-        return (good + (bad * -1))/((good + bad + neutral) === 0 ? NaN : (good + bad + neutral))
-    }
-
-    const calculatePercentage = () => {
-        return (good/((good + bad + neutral) === 0 ? NaN : (good + bad + neutral))) * 100
-    }
-
-    return (
-        <div>
-            <span>good {good}</span><br/>
-            <span>neutral {neutral}</span><br/>
-            <span>bad {bad}</span><br/>
-            <span>all {good + neutral + bad}</span><br/>
-            <span>average {calculateAverage()}</span><br/>
-            <span>positive {calculatePercentage()}%</span>
-        </div>
-    )
-}
-
-const FeedbackButtons = (props) => {
-    return(
-        <div>
-            <button style={{margin: '5px'}} onClick={props.goodClickHandler}>good</button>
-            <button style={{margin: '5px'}} onClick={props.neutralClickHandler}>neutral</button>
-            <button style={{margin: '5px'}} onClick={props.badClickHandler}>bad</button>
-        </div>
-    )
-}
+const FeedbackButton = ({ text, clickHandler }) => (
+    <button style={{ margin: '5px' }} onClick={clickHandler}>{text}</button>
+)
 
 const App = () => {
     const [good, setGood] = useState(0);
@@ -51,12 +29,39 @@ const App = () => {
         setBad(val);
     }
 
-    return(
+    const calculateAverage = () => {
+        return (good + (bad * -1)) / ((good + bad + neutral) === 0 ? NaN : (good + bad + neutral))
+    }
+
+    const calculatePercentage = () => {
+        return (good / ((good + bad + neutral) === 0 ? NaN : (good + bad + neutral))) * 100
+    }
+    if ((good + neutral + bad) > 0) {
+        return (
+            <div>
+                <h1>Give Feedback</h1>
+                <FeedbackButton clickHandler={() => setGoodValue(good + 1)} text="good" />
+                <FeedbackButton clickHandler={() => setNeutralValue(neutral + 1)} text="neutral" />
+                <FeedbackButton clickHandler={() => setBadValue(bad + 1)} text="bad" />
+                <h1>Statistics</h1>
+                <Statistic text="good" value={good} />
+                <Statistic text="neutral" value={neutral} />
+                <Statistic text="bad" value={bad} />
+                <Statistic text="all" value={good + neutral + bad} />
+                <Statistic text="average" value={calculateAverage()} />
+                <Statistic text="percentage" value={calculatePercentage()} />
+            </div>
+        )
+    }
+
+    return (
         <div>
             <h1>Give Feedback</h1>
-            <FeedbackButtons goodClickHandler={() => setGoodValue(good + 1)} neutralClickHandler={() => setNeutralValue(neutral + 1)} badClickHandler={() => setBadValue(bad + 1)}/>
+            <FeedbackButton clickHandler={() => setGoodValue(good + 1)} text="good" />
+            <FeedbackButton clickHandler={() => setNeutralValue(neutral + 1)} text="neutral" />
+            <FeedbackButton clickHandler={() => setBadValue(bad + 1)} text="bad" />
             <h1>Statistics</h1>
-            <Statistics good={good} neutral={neutral} bad={bad}/>
+            <span>No feedback given yet</span>
         </div>
     )
 }
