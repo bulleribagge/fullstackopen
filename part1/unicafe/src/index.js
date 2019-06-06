@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 
 
 const Statistic = ({ text, value }) => (
-    <div>
-        <span>{text} {value}</span><br />
-    </div>
+    <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+    </tr>
 )
 
 const FeedbackButton = ({ text, clickHandler }) => (
@@ -44,12 +45,16 @@ const App = () => {
                 <FeedbackButton clickHandler={() => setNeutralValue(neutral + 1)} text="neutral" />
                 <FeedbackButton clickHandler={() => setBadValue(bad + 1)} text="bad" />
                 <h1>Statistics</h1>
-                <Statistic text="good" value={good} />
-                <Statistic text="neutral" value={neutral} />
-                <Statistic text="bad" value={bad} />
-                <Statistic text="all" value={good + neutral + bad} />
-                <Statistic text="average" value={calculateAverage()} />
-                <Statistic text="percentage" value={calculatePercentage()} />
+                <table>
+                    <tbody>
+                        <Statistic text="good" value={good} />
+                        <Statistic text="neutral" value={neutral} />
+                        <Statistic text="bad" value={bad} />
+                        <Statistic text="all" value={good + neutral + bad} />
+                        <Statistic text="average" value={calculateAverage()} />
+                        <Statistic text="percentage" value={calculatePercentage() + " %"} />
+                    </tbody>
+                </table>
             </div>
         )
     }
