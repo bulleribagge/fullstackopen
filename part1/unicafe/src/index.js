@@ -2,12 +2,24 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 
-const Statistics = (props) => {
+const Statistics = ({good, neutral, bad}) => {
+
+    const calculateAverage = () => {
+        return (good + (bad * -1))/((good + bad + neutral) === 0 ? NaN : (good + bad + neutral))
+    }
+
+    const calculatePercentage = () => {
+        return (good/((good + bad + neutral) === 0 ? NaN : (good + bad + neutral))) * 100
+    }
+
     return (
         <div>
-            <span>good {props.good}</span><br/>
-            <span>neutral {props.neutral}</span><br/>
-            <span>bad {props.bad}</span><br/>
+            <span>good {good}</span><br/>
+            <span>neutral {neutral}</span><br/>
+            <span>bad {bad}</span><br/>
+            <span>all {good + neutral + bad}</span><br/>
+            <span>average {calculateAverage()}</span><br/>
+            <span>positive {calculatePercentage()}%</span>
         </div>
     )
 }
