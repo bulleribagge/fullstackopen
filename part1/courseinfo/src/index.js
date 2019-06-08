@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+const Course = ({ course }) => (
+    <div>
+        <Header course={course} />
+        <Content parts={course.parts} />
+        <Total parts={course.parts} />
+    </div>
+)
+
 const Header = (props) => (
     <h1>{props.course.name}</h1>
 )
@@ -11,11 +19,9 @@ const Part = (props) => (
     </p>
 )
 
-const Content = (props) => (
+const Content = ({parts}) => (
     <div>
-        <Part part={props.parts[0].name} exercises={props.parts[0].exercises} />
-        <Part part={props.parts[1].name} exercises={props.parts[1].exercises} />
-        <Part part={props.parts[2].name} exercises={props.parts[2].exercises} />
+        {parts.map((x, i) => <Part key={i} part={x.name} exercises={x.exercises}/>)}
     </div>
 )
 
@@ -42,9 +48,7 @@ const App = () => {
 
     return (
         <div>
-            <Header course={course} />
-            <Content parts={course.parts} />
-            <Total parts={course.parts} />
+            <Course course={course}/>
         </div>
     )
 }
