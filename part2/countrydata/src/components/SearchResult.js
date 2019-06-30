@@ -1,9 +1,9 @@
 import React from 'react'
 
-const SearchResult = ({ countries  }) => (
+const SearchResult = ({ countries, handleClick }) => (
     <ul>
         {countries.map(c => 
-            <li>{c.name}</li>
+            <li>{c.name} <button onClick={(e) => handleClick(e, c.name)}>show</button></li>
         )}
     </ul>
 )

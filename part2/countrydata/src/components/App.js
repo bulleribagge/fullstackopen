@@ -14,12 +14,14 @@ const App = () => {
         setSearchTerm(event.target.value)
     }
 
+    const handleClick = (e, country) => {
+        setSearchTerm(country)
+    }
+
     const fetchCountries = () => {
-        console.log('fetching countries...')
         axios.get("https://restcountries.eu/rest/v2/all")
             .then(res => {
                 setCountries(res.data)
-                console.log('fetched countries...', res.data)
             })
     }
 
@@ -35,7 +37,7 @@ const App = () => {
                 <div>Too many matches, specify another filter</div>
             }
             {matchingCountries.length > 1 && matchingCountries.length < 10 &&
-                <SearchResult countries={matchingCountries}/>
+                <SearchResult countries={matchingCountries} handleClick={handleClick}/>
             }
             {matchingCountries.length === 1 &&
                 <CountryDetails country={matchingCountries[0]}/>
