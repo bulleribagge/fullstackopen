@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PhoneBook from './PhoneBook';
 import PersonForm from './PersonForm'
 import Filter from './Filter'
-import axios from 'axios'
 import personService from '../services/persons'
 
 const App = () => {
@@ -27,7 +26,6 @@ const App = () => {
 
   const handleAddPerson = (e) => {
     e.preventDefault();
-    console.log('newPhoneNumber', newPhoneNumber);
     if (!persons.find(x => x.name === newName)) {
       const newPerson = { name: newName, number: newPhoneNumber }
       personService.create(newPerson)
@@ -41,10 +39,23 @@ const App = () => {
     }
   }
 
+  const handleDeletePerson = (e, id) => {
+    const personToDelete = persons.filter(x => x.id === id)[0]
+    const shouldDelete = window.confirm(`Delete ${personToDelete.name}?`)
+    if(shouldDelete)
+    {
+      personService.remove(id)
+      .then(_ => {
+        const newPersons = persons.filter(x => x.id !== id)
+        setPersons(newPersons)
+      })
+    }
+  }
+
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then(res => {
-      setPersons(res.data)
-      console.log(res.data)
+    personService.get()
+    .then(persons => {
+      setPersons(persons)
     })
   }, [])
 
@@ -64,7 +75,7 @@ const App = () => {
         handleAddPerson={handleAddPerson}
       />
       <h2>Numbers</h2>
-      <PhoneBook persons={filteredPersons} />
+      <PhoneBook persons={filteredPersons} handleDeletePerson={handleDeletePerson} />
     </div>
   )
 }
