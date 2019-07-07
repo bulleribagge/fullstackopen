@@ -3,6 +3,7 @@ import PhoneBook from './PhoneBook';
 import PersonForm from './PersonForm'
 import Filter from './Filter'
 import axios from 'axios'
+import personService from '../services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -29,9 +30,9 @@ const App = () => {
     console.log('newPhoneNumber', newPhoneNumber);
     if (!persons.find(x => x.name === newName)) {
       const newPerson = { name: newName, number: newPhoneNumber }
-      axios.post("http://localhost:3001/persons", newPerson)
-      .then(res => {
-        setPersons(persons.concat(res.data));
+      personService.create(newPerson)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson));
         setNewName('');
         setNewPhoneNumber('');
       })
