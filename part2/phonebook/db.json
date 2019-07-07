@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -19,6 +9,26 @@
       "name": "bengan bengtsson",
       "number": "5435543543",
       "id": 5
+    },
+    {
+      "name": "Lars Larsson",
+      "number": "4894156198",
+      "id": 6
+    },
+    {
+      "name": "Sven Svensson",
+      "number": "4354326542",
+      "id": 7
+    },
+    {
+      "name": "Anders Andersson",
+      "number": "999877897",
+      "id": 8
+    },
+    {
+      "name": "a",
+      "number": "3333333333",
+      "id": 9
     }
   ]
 }

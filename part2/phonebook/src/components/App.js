@@ -35,7 +35,18 @@ const App = () => {
         setNewPhoneNumber('');
       })
     } else {
-      alert(`${newName} is already in the phonebook`);
+      var shouldUpdate = window.confirm(`${newName} is already in the phonebook, replace the old number with the new one?`);
+      if(shouldUpdate)
+      {
+        var personToUpdate = persons.filter(x => x.name === newName)[0]
+        personToUpdate.number = newPhoneNumber
+        console.log(personToUpdate)
+        personService.put(personToUpdate)
+        .then(updatedPerson => {
+          const newPersons = persons.filter(x => x.id !== personToUpdate.id).concat(updatedPerson)
+          setPersons(newPersons)
+        })
+      }
     }
   }
 
