@@ -3,12 +3,15 @@ import PhoneBook from './PhoneBook';
 import PersonForm from './PersonForm'
 import Filter from './Filter'
 import personService from '../services/persons'
+import Notification from './Notification'
+import '../index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -22,6 +25,14 @@ const App = () => {
     setSearchTerm(event.target.value);
   }
 
+  const displayNotificationMessage = (msg, delay = 3000) => {
+    setNotificationMessage(msg)
+
+    setTimeout(() => {
+      setNotificationMessage(null)
+    }, delay)
+  }
+
   const filteredPersons = searchTerm === '' ? persons : persons.filter(x => x.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)
 
   const handleAddPerson = (e) => {
@@ -33,6 +44,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName('');
         setNewPhoneNumber('');
+        displayNotificationMessage('Person added')
       })
     } else {
       var shouldUpdate = window.confirm(`${newName} is already in the phonebook, replace the old number with the new one?`);
@@ -45,6 +57,7 @@ const App = () => {
         .then(updatedPerson => {
           const newPersons = persons.filter(x => x.id !== personToUpdate.id).concat(updatedPerson)
           setPersons(newPersons)
+          displayNotificationMessage('Person updated')
         })
       }
     }
@@ -73,6 +86,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage}/>
       <Filter 
         searchTerm={searchTerm}
         handleSearchTermChange={handleSearchTermChange}
