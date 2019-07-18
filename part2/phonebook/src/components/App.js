@@ -12,6 +12,7 @@ const App = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationMessageIsError, setNotificationMessageIsError] = useState(false)
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -25,8 +26,9 @@ const App = () => {
     setSearchTerm(event.target.value);
   }
 
-  const displayNotificationMessage = (msg, delay = 3000) => {
+  const displayMessage = (msg, isError, delay = 3000) => {
     setNotificationMessage(msg)
+    setNotificationMessageIsError(isError)
 
     setTimeout(() => {
       setNotificationMessage(null)
@@ -44,7 +46,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName('');
         setNewPhoneNumber('');
-        displayNotificationMessage('Person added')
+        displayMessage('Person added', false)
       })
     } else {
       var shouldUpdate = window.confirm(`${newName} is already in the phonebook, replace the old number with the new one?`);
@@ -57,7 +59,10 @@ const App = () => {
         .then(updatedPerson => {
           const newPersons = persons.filter(x => x.id !== personToUpdate.id).concat(updatedPerson)
           setPersons(newPersons)
-          displayNotificationMessage('Person updated')
+          displayMessage('Person updated', false)
+        })
+        .catch(e => {
+          displayMessage(`Information of '${personToUpdate.name}' has already been removed from server`, true)
         })
       }
     }
@@ -73,6 +78,9 @@ const App = () => {
         const newPersons = persons.filter(x => x.id !== id)
         setPersons(newPersons)
       })
+      .catch(e => {
+        displayMessage(`Information of '${personToDelete.name}' has already been removed from server`, true)
+      })
     }
   }
 
@@ -86,7 +94,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage}/>
+      <Notification message={notificationMessage} isError={notificationMessageIsError}/>
       <Filter 
         searchTerm={searchTerm}
         handleSearchTermChange={handleSearchTermChange}
