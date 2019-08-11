@@ -57,7 +57,8 @@ const App = () => {
         console.log(personToUpdate)
         personService.put(personToUpdate)
         .then(updatedPerson => {
-          const newPersons = persons.filter(x => x.id !== personToUpdate.id).concat(updatedPerson)
+          const newPersons = persons.filter(x => x._id !== personToUpdate._id).concat(updatedPerson)
+          console.log('newPersons', newPersons)
           setPersons(newPersons)
           displayMessage('Person updated', false)
         })
@@ -69,13 +70,13 @@ const App = () => {
   }
 
   const handleDeletePerson = (e, id) => {
-    const personToDelete = persons.filter(x => x.id === id)[0]
+    const personToDelete = persons.filter(x => x._id === id)[0]
     const shouldDelete = window.confirm(`Delete ${personToDelete.name}?`)
     if(shouldDelete)
     {
       personService.remove(id)
       .then(_ => {
-        const newPersons = persons.filter(x => x.id !== id)
+        const newPersons = persons.filter(x => x._id !== id)
         setPersons(newPersons)
       })
       .catch(e => {

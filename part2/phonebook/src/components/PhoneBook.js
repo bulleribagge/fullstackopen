@@ -5,7 +5,7 @@ const PhoneBook = ({ persons, handleDeletePerson }) => (
     <table>
         <tbody>
             {persons.map(x =>
-                <Person key={x.name} person={x} handleDeletePerson={handleDeletePerson} />
+                <Person key={x._id} person={x} handleDeletePerson={handleDeletePerson} />
             )}
         </tbody>
     </table>
