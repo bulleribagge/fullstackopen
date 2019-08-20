@@ -1,11 +1,11 @@
 import React from 'react';
 import Blog from './Blog';
 
-const BlogList = ({ blogs }) => (
+const BlogList = ({ user, blogs, handleLike, handleDelete }) => (
   <div>
     <ul>
       {blogs && blogs.map((b) => (
-        <Blog blog={b} key={b.title} />
+        <Blog user={user} blog={b} key={b.title} handleLike={handleLike} handleDelete={handleDelete} />
       ))}
     </ul>
   </div>
