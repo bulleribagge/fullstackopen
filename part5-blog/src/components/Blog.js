@@ -16,11 +16,11 @@ const Blog = ({ user, blog, handleLike, handleDelete }) => {
   };
 
   return (
-    <div style={blogStyle}>
-      <div onClick={() => toggleExpanded()}>
+    <div style={blogStyle} className="blog">
+      <div onClick={() => toggleExpanded()} className='titleAuthor'>
         {blog.title} {blog.author}
       </div>
-      <div style={expanded ? { display: '' } : { display: 'none' }}>
+      <div style={expanded ? { display: '' } : { display: 'none' }} className='expandDiv'>
         {blog.url} <br/>
         {blog.likes} likes <button onClick={() => handleLike(blog)}>like</button><br/>
       Added by {blog.user}<br/>
