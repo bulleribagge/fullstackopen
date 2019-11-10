@@ -1,32 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useField } from '../hooks/index';
+import Input from './Input';
 
 const AddBlogForm = ({ handleAddBlog }) => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
-
-  const handleChangeTitle = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleChangeAuthor = (e) => {
-    setAuthor(e.target.value);
-  };
-
-  const handleChangeUrl = (e) => {
-    setUrl(e.target.value);
-  };
+  const title = useField('text');
+  const author = useField('text');
+  const url = useField('text');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handleAddBlog({
-      title: title,
-      author: author,
-      url: url
+      title: title.value,
+      author: author.value,
+      url: url.value
     });
-    setTitle('');
-    setAuthor('');
-    setUrl('');
+    title.reset();
+    author.reset();
+    url.reset();
   };
 
   return (
@@ -34,19 +24,19 @@ const AddBlogForm = ({ handleAddBlog }) => {
       <div>
         <label>
           title
-          <input type="text" name="title" value={title} onChange={(e) => handleChangeTitle(e)}></input>
+          <Input {...title} />
         </label>
       </div>
       <div>
         <label>
           author
-          <input type="text" name="author" value={author} onChange={(e) => handleChangeAuthor(e)}></input>
+          <Input {...author} />
         </label>
       </div>
       <div>
         <label>
           url
-          <input type="text" name="url" value={url} onChange={(e) => handleChangeUrl(e)}></input>
+          <Input {...url} />
         </label>
       </div>
       <button type="button" onClick={(e) => handleSubmit(e)}>save</button>
