@@ -8,7 +8,7 @@ const getAll = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.get(`${baseUrl}/blogs/all`, config);
+  const response = await axios.get(`${baseUrl}/blogs`, config);
   return response.data;
 };
 
@@ -35,7 +35,7 @@ const updateBlog = async (blog, token) => {
       likes: blog.likes + 1,
       title: blog.title,
       url: blog.url,
-      user: blog.user
+      user: blog.user.id
     }, config);
 
   return response.data;

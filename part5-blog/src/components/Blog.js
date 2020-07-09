@@ -23,7 +23,7 @@ const Blog = ({ user, blog, handleLike, handleDelete }) => {
       <div style={expanded ? { display: '' } : { display: 'none' }} className='expandDiv'>
         {blog.url} <br/>
         {blog.likes} likes <button onClick={() => handleLike(blog)}>like</button><br/>
-      Added by {blog.user}<br/>
+      Added by {blog.user.name}<br/>
         <button onClick={() => handleDelete(blog.id)} style={user.id === blog.user ? { display: '' } : { display: 'none' }}>remove</button>
       </div>
     </div>
