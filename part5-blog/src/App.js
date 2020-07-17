@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from './logo.jpg';
 import './App.css';
@@ -12,16 +12,16 @@ import Togglable from './components/Togglable';
 import loginService from './services/login';
 import { initBlogs, createBlog, deleteBlog, likeBlog } from './reducers/blogReducer';
 import { setNotificationMessage, clearNotificationMessage } from './reducers/notificationReducer';
+import { setLoggedInUser, clearLoggedInUser } from './reducers/userReducer';
 
 function App() {
   const dispatch = useDispatch();
   const blogs = useSelector(state => state.blogs);
   const notification = useSelector(state => state.notification);
-  const [user, setUser] = useState(null);
+  const user = useSelector(state => state.user);
   const addBlogFormRef = useRef();
 
   const showNotification = (msg, isError) => {
-    console.log(`Setting notification ${msg}`);
     dispatch(setNotificationMessage({ msg, isError }));
     setTimeout(function () {
       dispatch(clearNotificationMessage());
@@ -33,7 +33,7 @@ function App() {
       const maybeLoggedInUser = window.localStorage.getItem('loggedInUser');
       if (maybeLoggedInUser) {
         const storedUser = JSON.parse(maybeLoggedInUser);
-        setUser(storedUser);
+        dispatch(setLoggedInUser(storedUser));
         dispatch(initBlogs(storedUser.token));
       }
     }
@@ -43,8 +43,8 @@ function App() {
   const handleLogin = async (username, password) => {
     try {
       const loggedInUser = await loginService.login(username, password);
-      setUser(loggedInUser);
-      dispatch(initBlogs(loggedInUser.token))
+      dispatch(setLoggedInUser(loggedInUser));
+      dispatch(initBlogs(loggedInUser.token));
       window.localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
     } catch (err) {
       showNotification('Incorrect username and/or password', true);
@@ -53,7 +53,7 @@ function App() {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedInUser');
-    setUser(null);
+    dispatch(clearLoggedInUser(null));
   };
 
   const handleAddBlog = async (blog) => {

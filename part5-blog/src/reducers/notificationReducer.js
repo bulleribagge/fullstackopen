@@ -1,8 +1,8 @@
 const reducer = (state = [{ msg: '', isError: false }], action) => {
     switch (action.type) {
-        case 'SET':
+        case 'SET_NOTIFICATION':
             return action.data;
-        case 'CLEAR':
+        case 'CLEAR_NOTIFICATION':
             return '';
         default:
             return state;
@@ -12,7 +12,7 @@ const reducer = (state = [{ msg: '', isError: false }], action) => {
 export const setNotificationMessage = (data) => {
     return async (dispatch) => {
         dispatch({
-            type: 'SET',
+            type: 'SET_NOTIFICATION',
             data: data
         });
     };
@@ -21,7 +21,7 @@ export const setNotificationMessage = (data) => {
 export const clearNotificationMessage = () => {
     return async (dispatch) => {
         dispatch({
-            type: 'CLEAR'
+            type: 'CLEAR_NOTIFICATION'
         });
     };
 };

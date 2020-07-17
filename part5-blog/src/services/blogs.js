@@ -35,7 +35,6 @@ const likeBlog = async (blog, token) => {
       likes: blog.likes + 1
     }, config);
 
-  console.log('returning user after like', response.data);
   return response.data;
 };
 

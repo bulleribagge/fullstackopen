@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 
 const Blog = ({ user, blog, handleLike, handleDelete }) => {
 
-  console.log('user:', user);
-
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
