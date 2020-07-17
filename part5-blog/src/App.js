@@ -11,17 +11,20 @@ import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import loginService from './services/login';
 import { initBlogs, createBlog } from './reducers/blogReducer';
+import { setNotificationMessage, clearNotificationMessage } from './reducers/notificationReducer';
 
 function App() {
   const dispatch = useDispatch();
   const blogs = useSelector(state => state.blogs);
+  const notification = useSelector(state => state.notification);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState({ msg: '', isError: false });
+  //const [notification, setNotification] = useState({ msg: '', isError: false });
 
   const showNotification = (msg, isError) => {
-    setNotification({ msg, isError });
+    console.log(`Setting notification ${msg}`);
+    dispatch(setNotificationMessage({ msg, isError }));
     setTimeout(function () {
-      setNotification({ msg: '', isError: false });
+      dispatch(clearNotificationMessage());
     }, 2000);
   };
 
@@ -58,6 +61,10 @@ function App() {
     showNotification(`New blog added: ${blog.title} by ${blog.author}`, false);
   };
 
+  const handleTestNotification = () => {
+    showNotification('testing', false);
+  }
+
   const handleLike = async (blog) => {
     console.log('liking blog', user);
     //var updatedBlog = await blogService.updateBlog(blog, user.token);
@@ -78,6 +85,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
+      <button onClick={handleTestNotification}>TEST NOTIFICATION</button>
       {!user && <Login handleLogin={handleLogin} />}
       {user && <NameDisplay fullName={user.name} />}
       {user && <LogoutButton handleLogout={handleLogout} />}
