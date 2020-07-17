@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 const Blog = ({ user, blog, handleLike, handleDelete }) => {
 
+  console.log('user:', user);
+
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -24,7 +26,7 @@ const Blog = ({ user, blog, handleLike, handleDelete }) => {
         {blog.url} <br/>
         {blog.likes} likes <button onClick={() => handleLike(blog)}>like</button><br/>
       Added by {blog.user.name}<br/>
-        <button onClick={() => handleDelete(blog.id)} style={user.id === blog.user ? { display: '' } : { display: 'none' }}>remove</button>
+        <button onClick={() => handleDelete(blog.id)} style={user.id === blog.user.id ? { display: '' } : { display: 'none' }}>remove</button>
       </div>
     </div>
   );};

@@ -4,6 +4,10 @@ const reducer = (state = [], action) => {
   switch (action.type) {
     case 'CREATE':
       return state.concat(action.data);
+    case 'DELETE':
+      return state.filter(x => x.id !== action.data);
+    case 'UPDATE':
+      return state.filter(x => x.id !== action.data.id).concat(action.data);
     case 'INIT_BLOGS':
       return action.data;
     default:
@@ -17,6 +21,26 @@ export const createBlog = (data, token) => {
     dispatch({
       type: 'CREATE',
       data: blog,
+    });
+  };
+};
+
+export const deleteBlog = (id, token) => {
+  return async (dispatch) => {
+    await blogService.deleteBlog(id, token);
+    dispatch({
+      type: 'DELETE',
+      data: id
+    });
+  };
+};
+
+export const likeBlog = (blog, token) => {
+  return async (dispatch) => {
+    let updatedBlog = await blogService.likeBlog(blog, token);
+    dispatch({
+      type: 'UPDATE',
+      data: updatedBlog
     });
   };
 };

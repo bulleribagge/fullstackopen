@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from './logo.jpg';
 import './App.css';
@@ -10,7 +10,7 @@ import AddBlogForm from './components/AddBlogForm';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import loginService from './services/login';
-import { initBlogs, createBlog } from './reducers/blogReducer';
+import { initBlogs, createBlog, deleteBlog, likeBlog } from './reducers/blogReducer';
 import { setNotificationMessage, clearNotificationMessage } from './reducers/notificationReducer';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
   const blogs = useSelector(state => state.blogs);
   const notification = useSelector(state => state.notification);
   const [user, setUser] = useState(null);
-  //const [notification, setNotification] = useState({ msg: '', isError: false });
+  const addBlogFormRef = useRef();
 
   const showNotification = (msg, isError) => {
     console.log(`Setting notification ${msg}`);
@@ -58,24 +58,20 @@ function App() {
 
   const handleAddBlog = async (blog) => {
     dispatch(createBlog(blog, user.token));
+    addBlogFormRef.current.toggleVisibility();
     showNotification(`New blog added: ${blog.title} by ${blog.author}`, false);
   };
 
-  const handleTestNotification = () => {
-    showNotification('testing', false);
-  }
-
   const handleLike = async (blog) => {
-    console.log('liking blog', user);
-    //var updatedBlog = await blogService.updateBlog(blog, user.token);
-    //setBlogs(blogs.filter(x => x.id !== updatedBlog.id).concat(updatedBlog));
+    dispatch(likeBlog(blog, user.token));
+    showNotification(`User ${user.name} liked blog ${blog.title}`, false);
   };
 
   const handleDelete = async (id) => {
     if(window.confirm('Are you sure you want to delete this blog?'))
     {
-      //await blogService.deleteBlog(id, user.token);
-      //setBlogs(blogs.filter(x => x.id !== id));
+      dispatch(deleteBlog(id, user.token));
+      showNotification(`User ${user.name} deleted a blog`, false);
     }
   };
 
@@ -85,12 +81,11 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      <button onClick={handleTestNotification}>TEST NOTIFICATION</button>
       {!user && <Login handleLogin={handleLogin} />}
       {user && <NameDisplay fullName={user.name} />}
       {user && <LogoutButton handleLogout={handleLogout} />}
       {user &&
-        <Togglable buttonLabel='new blog'>
+        <Togglable buttonLabel='new blog' ref={addBlogFormRef}>
           <AddBlogForm handleAddBlog={handleAddBlog} />
         </Togglable>}
       {user && <BlogList user={user} blogs={blogs.sort((a,b) => {return a.likes > b.likes ? -1 : 1;})} handleLike={handleLike} handleDelete={handleDelete}/>}

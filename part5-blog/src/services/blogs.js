@@ -23,7 +23,7 @@ const addBlog = async (blog, token) => {
   return response.data;
 };
 
-const updateBlog = async (blog, token) => {
+const likeBlog = async (blog, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -32,12 +32,10 @@ const updateBlog = async (blog, token) => {
 
   const response = await axios.put(`${baseUrl}/blogs/${blog.id}`,
     {
-      likes: blog.likes + 1,
-      title: blog.title,
-      url: blog.url,
-      user: blog.user.id
+      likes: blog.likes + 1
     }, config);
 
+  console.log('returning user after like', response.data);
   return response.data;
 };
 
@@ -51,4 +49,4 @@ const deleteBlog = async (id, token) => {
   await axios.delete(`${baseUrl}/blogs/${id}`, config);
 };
 
-export default { getAll, addBlog, updateBlog, deleteBlog };
+export default { getAll, addBlog, likeBlog, deleteBlog };
