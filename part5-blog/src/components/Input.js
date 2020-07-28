@@ -1,8 +1,9 @@
 import React from 'react';
+import { TextField } from '@material-ui/core';
 
-const Input = ({ type, value, onChange }) => {
+const Input = ({ type, value, onChange, label }) => {
   return (
-    <input type={type} value={value} onChange={(e) => onChange(e)}></input>
+    <TextField label={label} type={type} value={value} onChange={(e) => onChange(e)}></TextField>
   );
 };
 

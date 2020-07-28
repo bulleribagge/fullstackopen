@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const NameDisplay = ({ fullName }) => (
-  <p>
+  <span style={{ padding: "5px" }}>
     {fullName} is logged in
-  </p>
+  </span>
 );
 
 NameDisplay.propTypes = {

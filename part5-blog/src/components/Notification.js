@@ -1,9 +1,10 @@
 import React from 'react';
+import { Alert } from '@material-ui/lab';
 
 const Notification = ({ msg, isError }) => (
-  <div className={isError ? 'error' : 'notification'}>
+  <Alert severity={isError ? 'error' : 'success'}>
     {msg}
-  </div>
+  </Alert>
 );
 
 export default Notification;

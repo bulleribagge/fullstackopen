@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TextField, Button } from '@material-ui/core';
 
 const Login = ({ handleLogin }) => {
   const [username, setUsername] = useState('');
@@ -19,18 +20,14 @@ const Login = ({ handleLogin }) => {
   return (
     <div>
       <div>
-        <label>
-          username
-          <input type="text" name="username" value={username} onChange={(e) => onChangeUsername(e)} />
-        </label>
+        <TextField label="username" value={username} onChange={(e) => onChangeUsername(e)} />
+        {/* <input type="text" name="username" value={username} onChange={(e) => onChangeUsername(e)} /> */}
       </div>
       <div>
-        <label>
-          password
-          <input type="password" name="password" value={password} onChange={(e) => onChangePassword(e)} />
-        </label>
+        <TextField label="password" value={password} type="password" onChange={(e) => onChangePassword(e)} />
+        {/* <input type="password" name="password" value={password} onChange={(e) => onChangePassword(e)} /> */}
       </div>
-      <button type="button" onClick={() => handleSubmit()}>login</button>
+      <Button variant="contained" color="primary" onClick={() => handleSubmit()}>login</Button>
     </div>
   );
 };

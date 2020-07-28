@@ -23,6 +23,22 @@ const addBlog = async (blog, token) => {
   return response.data;
 };
 
+const addComment = async (id, comment, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(`${baseUrl}/blogs/${id}/comments`,
+    {
+      comment: comment
+    }, config);
+
+    console.log('addComment response: ', response.data);
+  return response.data;
+};
+
 const likeBlog = async (blog, token) => {
   const config = {
     headers: {
@@ -35,6 +51,7 @@ const likeBlog = async (blog, token) => {
       likes: blog.likes + 1
     }, config);
 
+    console.log('like response: ', response.data);
   return response.data;
 };
 
@@ -48,4 +65,4 @@ const deleteBlog = async (id, token) => {
   await axios.delete(`${baseUrl}/blogs/${id}`, config);
 };
 
-export default { getAll, addBlog, likeBlog, deleteBlog };
+export default { getAll, addBlog, likeBlog, deleteBlog, addComment };

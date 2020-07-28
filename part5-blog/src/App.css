@@ -19,3 +19,7 @@ body {
     border-radius: 10px;
     background-color: lightgray;
 }
+
+.appheader {
+    background-color: lightgray;
+}

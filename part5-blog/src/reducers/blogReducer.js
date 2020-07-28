@@ -38,6 +38,18 @@ export const deleteBlog = (id, token) => {
 export const likeBlog = (blog, token) => {
   return async (dispatch) => {
     let updatedBlog = await blogService.likeBlog(blog, token);
+    console.log(updatedBlog);
+    dispatch({
+      type: 'UPDATE',
+      data: updatedBlog
+    });
+  };
+};
+
+export const addComment = (id, comment, token) => {
+  return async (dispatch) => {
+    const updatedBlog = await blogService.addComment(id, comment, token);
+    console.log(updatedBlog);
     dispatch({
       type: 'UPDATE',
       data: updatedBlog

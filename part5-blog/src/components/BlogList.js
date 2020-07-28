@@ -1,13 +1,14 @@
 import React from 'react';
-import Blog from './Blog';
+import BlogListItem from './BlogListItem';
+import { List } from '@material-ui/core';
 
 const BlogList = ({ user, blogs, handleLike, handleDelete }) => (
   <div>
-    <ul>
+    <List>
       {blogs && blogs.map((b) => (
-        <Blog user={user} blog={b} key={b.title} handleLike={handleLike} handleDelete={handleDelete} />
+        <BlogListItem user={user} blog={b} key={b.title} handleLike={handleLike} handleDelete={handleDelete} />
       ))}
-    </ul>
+    </List>
   </div>
 );
 

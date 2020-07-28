@@ -1,11 +1,12 @@
 import React from 'react';
 import { useField } from '../hooks/index';
 import Input from './Input';
+import { Button } from '@material-ui/core';
 
 const AddBlogForm = ({ handleAddBlog }) => {
-  const title = useField('text');
-  const author = useField('text');
-  const url = useField('text');
+  const title = useField('text', 'title');
+  const author = useField('text', 'author');
+  const url = useField('text', 'url');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,26 +21,17 @@ const AddBlogForm = ({ handleAddBlog }) => {
   };
 
   return (
-    <form style={{ marginTop: '10px' }}>
+    <form>
       <div>
-        <label>
-          title
-          <Input {...title} />
-        </label>
+        <Input {...title} />
       </div>
       <div>
-        <label>
-          author
-          <Input {...author} />
-        </label>
+        <Input {...author} />
       </div>
       <div>
-        <label>
-          url
-          <Input {...url} />
-        </label>
+        <Input {...url} />
       </div>
-      <button type="button" onClick={(e) => handleSubmit(e)}>save</button>
+      <Button type="button" onClick={(e) => handleSubmit(e)}>save</Button>
     </form>
   );
 };
